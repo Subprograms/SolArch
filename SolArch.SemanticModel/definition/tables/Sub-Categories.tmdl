@@ -1,0 +1,50 @@
+table Sub-Categories
+	lineageTag: a0f31ea7-e0cb-43d1-952e-4ec74ca86563
+
+	column Sub-Category
+		dataType: string
+		lineageTag: 79bd8af2-523d-41cd-8af1-f8682064f1b3
+		summarizeBy: none
+		sourceColumn: Sub-Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sub-Categories = m
+		mode: import
+		source =
+				let
+				    MappingTable = #table(
+				        {"Sub-Category"},
+				        {
+				            {"High Availability"},
+				            {"Highly Available"},
+				            {"Minuts"},
+				            {"Time"},
+				            {"Hour"},
+				            {"Day"},
+				            {"Year"},
+				            {"Retention"},
+				            {"Credentials"},
+				            {"Password"},
+				            {"Secret"},
+				            {"Scan"},
+				            {"Saving"},
+				            {"Cost"},
+				            {"Analy"},
+				            {"Big Data"},
+				            {"Data Warehouse"},
+				            {"SQL"},
+				            {"NoSQL"},
+				            {"Key"},
+				            {"Cert"},
+				            {"Latency"},
+				            {"Frequen"}
+				        }
+				    )
+				in
+				    MappingTable
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

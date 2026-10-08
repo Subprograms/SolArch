@@ -1,0 +1,35 @@
+model Model
+	culture: en-PH
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-PH
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from Coffee Data'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Transform File from Coffee Data (2)'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Transform File from Data'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transform File from Data\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Data","Parameter1","Transform Sample File","Sample File","Transform File","Sub-Categories"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Data
+ref table Sub-Categories
+
+ref cultureInfo en-PH
+
