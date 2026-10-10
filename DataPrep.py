@@ -196,3 +196,66 @@ tmdl_content = tmdl_content.replace(
 
 with open(target_file, "w", encoding="utf-8", newline="\n") as f:
     f.write(tmdl_content)
+
+target_file = (
+    script_dir
+    / "SolArch.SemanticModel"
+    / "definition"
+    / "expressions.tmdl"
+)
+
+tmdl_content = r'''
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 90e3bd6e-f852-4f27-9a3a-1b81938e80d2
+	queryGroup: 'Transform File from Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File' =
+		let
+		    Source = Excel.Workbook(Parameter1, null, true),
+		    Data_Sheet = Source{[Item="Data",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Data_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 1e1daa66-544e-4e21-b78c-e44b37f1da4e
+	queryGroup: 'Transform File from Data'
+
+	annotation PBI_ResultType = Table
+
+expression 'Sample File' =
+		let
+		    Source = Folder.Files("SOMEPATH"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 493a3884-e864-47d7-bc89-65c6bc9c683a
+	queryGroup: 'Transform File from Data\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Excel.Workbook(Parameter1, null, true),
+		    Data_Sheet = Source{[Item="Data",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Data_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File""}" ]
+	lineageTag: bfe562fa-bb63-4a1b-a5a2-2f04c6a4a5a0
+	queryGroup: 'Transform File from Data\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+'''
+
+tmdl_content = tmdl_content.replace(
+    r'Source = Folder.Files("SOMEPATH"),',
+    f'Source = Folder.Files("{pq_path}"),'
+)
+
+with open(target_file, "w", encoding="utf-8", newline="\n") as f:
+    f.write(tmdl_content)
